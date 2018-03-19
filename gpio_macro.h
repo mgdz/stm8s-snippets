@@ -8,4 +8,8 @@
 #define HI_BYTE(WORD) ((uint8_t)(((WORD) >> 8) & 0xFF))
 #define LO_BYTE(WORD) ((uint8_t)((WORD) & 0xFF))
 
+#define UART_DIV_BRR2(WORD) ((uint8_t)(((WORD >> 8) & 0xF0) | (WORD & 0x0F)))
+#define UART_DIV_BRR1(WORD) ((uint8_t)(WORD >> 4)) 
+
+
 #endif
