@@ -1,6 +1,68 @@
 #ifndef _GPIO_MACRO_H
 #define _GPIO_MACRO_H
 
+#define GPIO_PIN_MODE_INPUT_FLOATING_WITHOUT_INTERRUPT(PORT, PIN)	\
+  {									\
+   GPIO##PORT->DDR &= (uint8_t)(~(PIN));				\
+   GPIO##PORT->CR1 &= (uint8_t)(~(PIN));				\
+   GPIO##PORT->CR2 &= (uint8_t)(~(PIN));				\
+   }
+
+#define GPIO_PIN_MODE_INPUT_PULLUP_WITHOUT_INTERRUPT(PORT, PIN)		\
+  {									\
+    GPIO##PORT->DDR &= (uint8_t)(~(PIN));				\
+    GPIO##PORT->CR1 |= (PIN);						\
+    GPIO##PORT->CR2 &= (uint8_t)(~(PIN));				\
+  }
+
+#define GPIO_PIN_MODE_INPUT_FLOATING_WITH_INTERRUPT(PORT, PIN)		\
+  {									\
+    GPIO##PORT->DDR &= (uint8_t)(~(PIN));				\
+    GPIO##PORT->CR1 &= (uint8_t)(~(PIN));				\
+    GPIO##PORT->CR2 |= (PIN);						\
+  }
+
+#define GPIO_PIN_MODE_INPUT_PULLUP_WITH_INTERRUPT(PORT, PIN)	\
+  {								\
+    GPIO##PORT->DDR &= (uint8_t)(~(PIN));			\
+    GPIO##PORT->CR1 |= (PIN);					\
+    GPIO##PORT->CR2 |= (PIN);					\
+  }
+
+#define GPIO_PIN_MODE_OUTPUT_OPENDRAIN_2MHZ(PORT, PIN)	\
+  {							\
+    GPIO##PORT->DDR |= (PIN);				\
+    GPIO##PORT->CR1 &= (uint8_t)(~(PIN));		\
+    GPIO##PORT->CR2 &= (uint8_t)(~(PIN));		\
+  }
+
+#define GPIO_PIN_MODE_OUTPUT_OPENDRAIN_10MHZ(PORT, PIN) \
+  {							\
+    GPIO##PORT->DDR |= (PIN);				\
+    GPIO##PORT->CR1 &= (uint8_t)(~(PIN));		\
+    GPIO##PORT->CR2 |= (PIN);				\
+  }
+
+#define GPIO_PIN_MODE_OUTPUT_PUSHPULL_2MHZ(PORT, PIN)	\
+  {							\
+    GPIO##PORT->DDR |= (PIN);				\
+    GPIO##PORT->CR1 |= (PIN);				\
+    GPIO##PORT->CR2 &= (uint8_t)(~(PIN));		\
+  }
+
+#define GPIO_PIN_MODE_OUTPUT_PUSHPULL_10MHZ(PORT, PIN)	\
+  {							\
+    GPIO##PORT->DDR |= (PIN);				\
+    GPIO##PORT->CR1 |= (PIN);				\
+    GPIO##PORT->CR2 |= (PIN);				\
+  }
+
+#define GPIO_PIN_MODE(MODE, PORT, PIN)		\
+  {						\
+    GPIO_PIN_MODE_##MODE(PORT, PIN);		\
+  }
+
+
 #define SET_PIN_HIGH(PORT, PIN) { GPIO##PORT->ODR |= (1<<PIN); }
 #define SET_PIN_LOW(PORT, PIN) { GPIO##PORT->ODR &= (uint8_t)(~(1<<PIN)); }
 #define SET_PIN(PORT, PIN, LEVEL) { SET_PIN_##LEVEL(PORT, PIN); }
